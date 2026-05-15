@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "lovelyplanet"
+version = "0.1.0"
+description = "POC - sample Python project with known vulnerable dependencies"
+requires-python = ">=3.10"
+dependencies = [
+    "flask==2.2.2",
+    "requests==2.25.1",
+    "pyyaml==6.0.1",
+    "cryptography==39.0.0",
+    "werkzeug==2.2.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
