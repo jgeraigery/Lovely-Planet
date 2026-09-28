@@ -1,0 +1,33 @@
+ """Utility functions for the application."""
+ 
++from urllib.parse import urlparse
+ import requests
+ from cryptography.fernet import Fernet
+ 
+ ENCRYPTION_KEY = Fernet.generate_key()
+ cipher = Fernet(ENCRYPTION_KEY)
+ 
+ 
+ def fetch_url(url: str) -> str:
+     """Fetch content from a URL using requests."""
++    # Define allowed domains, TODO: add allowed domains here
++    allowed_domains = {"example.com", "api.example.com"}
++    try:
++        parsed_url = urlparse(url)
++        if parsed_url.hostname not in allowed_domains:
++            return "Invalid or disallowed URL"
++    except Exception:
++        return "Malformed URL"
++    
+     response = requests.get(url, timeout=10)
+     return response.text[:5000]
+ 
+ 
+ def encrypt_data(plaintext: str) -> bytes:
+     """Encrypt a string using Fernet symmetric encryption."""
+     return cipher.encrypt(plaintext.encode())
+ 
+ 
+ def decrypt_data(ciphertext: bytes) -> str:
+     """Decrypt Fernet-encrypted bytes back to a string."""
+     return cipher.decrypt(ciphertext).decode()
